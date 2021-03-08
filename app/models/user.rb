@@ -4,8 +4,6 @@ class User < ActiveRecord::Base
 #    has_many :activities, through: :bookmarks
 
 
-
-
 def self.login
     puts "What is your username ?"
     username = gets.chomp
