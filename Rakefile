@@ -9,8 +9,16 @@ task :console do
   Pry.start
 end
 
+desc "start"
+task :run do
+  interface = Interface.new
+  interface.run
+end
+
 
 namespace :remind_me_about do
+
+
 
   desc "🎁 process for adding a new model"
   task :adding_model do

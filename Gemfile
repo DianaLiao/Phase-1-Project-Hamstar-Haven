@@ -9,3 +9,4 @@ gem "sqlite3"
 gem "pry"
 gem 'activerecord-reset-pk-sequence'
 gem 'colorize'
+gem 'tty-prompt'
