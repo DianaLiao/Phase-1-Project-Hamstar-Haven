@@ -5,5 +5,9 @@ class Activity < ActiveRecord::Base
     has_many :solutions
     has_many :problems, through: :solutions
 
+
+    
+
+
 end
 

@@ -4,34 +4,43 @@ class User < ActiveRecord::Base
 #    has_many :activities, through: :bookmarks
 
 
-def self.login
-    puts " Please enter your username: "
-    username = STDIN.gets.chomp
-    puts " Please enter your password: "
-    password = STDIN.gets.chomp
+def self.login (interface_inst)
+
+    username = interface_inst.prompt.ask("Please enter your username:")
+    password = interface_inst.prompt.mask("Please enter your password:")
+
     user = User.find_by(username: username, password: password)
-    until user
+
+    until user 
         # system "clear"
-        puts " Incorrect username or password"
-        user = User.login
+        puts "Incorrect username or password"
+        user = User.login (interface_inst)
     end
     user
 end
 
-def self.register
-    puts " Please enter your username: "
-    username = STDIN.gets.chomp
+def self.register(interface_inst)
+    username = interface_inst.prompt.ask("Please enter your desired username:")
     user = User.find_by(username: username)
+
     until !user
-        puts " Sorry this username has been taken. Please chooose another one !"
-        user = User.register
+        puts "Sorry this username has been taken. Please chooose another one!"
+        user = User.register(interface_inst)
     end
-    puts " Please enter your password: "
-    password = STDIN.gets.chomp
-    user = User.create(username: username, password: password)
-    puts " What would you like to be called ?"
-    name = STDIN.gets.chomp
-    user.name = name
+
+    password = interface_inst.prompt.mask("Please enter your password:")
+
+    # password_confirm = interface_inst.prompt.mask("Please confirm your password:")
+
+    # until password == password_confirm
+    #     puts "Your passwords did not match. Please try registration again."
+    #     User.register(interface_inst)
+    # end
+
+    name = interface_inst.prompt.ask("What would you like to be called?")
+
+    new_user = User.create(username: username, password: password, name: name)
+    interface_inst.user = new_user
 end
 
 
