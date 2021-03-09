@@ -5,15 +5,26 @@ class User < ActiveRecord::Base
 
 
 def self.login
-    puts "What is your username ?"
+    puts " Please enter your username: "
     username = gets.chomp
-    if User.find_by(username: username)
-    
-
+    puts " Please enter your password: "
+    password = gets.chomp
+    user = User.find_by(username: username, password: password)
+    until user
+        # system "clear"
+        puts " Incorrect username or password"
+        user = User.login
     end
-    
+    user
 end
 
+# def self.register
+#     puts " Please enter your username: "
+#     username = gets.chomp
+#     puts " Please enter your password: "
+#     password = gets.chomp
+#     user = User.create(usename: username, password: password)
+# end
 
 
 
