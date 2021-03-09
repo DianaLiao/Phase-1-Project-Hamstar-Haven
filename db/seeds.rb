@@ -22,6 +22,10 @@ activity1 = Activity.create(name:"Hydrate", description: "abcdefg" )
 activity2 = Activity.create(name:"Go for a walk", description: "because the weather is nice outside" )
 activity3 = Activity.create(name: "Yoga", description: "release stress")
 
+#user_activity
+user_activity1 = UserActivity.create(user_id: user1.id, activity_id: activity1.id, date: Date.today)
+user_activity2 = UserActivity.create(user_id: user1.id, activity_id: activity1.id, date: 2020-12-10)
+
 #problem
 problem1 = Problem.create(problem_type: "I am stressed")
 problem2 = Problem.create(problem_type: "I am tired")

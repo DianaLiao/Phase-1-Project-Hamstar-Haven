@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
     has_many :user_activities
     has_many :activities, through: :user_activities
-#    has_many :activities, through: :bookmarks
+    has_many :bookmarks
+    has_many :favorites, through: :bookmarks, source: :activity
 
 
 def self.login (interface_inst)

@@ -4,15 +4,22 @@ class Problem < ActiveRecord::Base
 
     def self.suggestions_menu(interface_inst)
 
-        options = Problem.all.map { |problem| problem.problem_type }.uniq
+        options = Problem.all.map { |problem| problem.problem_type }.uniq.sort
+        
+        options.push("Exit")
 
         problem_name = interface_inst.prompt.select("What do you need help with?") do |menu|
             menu.help "Press right/left for more options"
-            menu.choices options.sort
+            menu.choices options
         end
+        # binding.pry
+        # if 
+        # else
+
         current_problem = Problem.find_by(problem_type: problem_name)
         current_problem.view_solutions
     end
+# end
 
     def view_solutions
         prompt = TTY::Prompt.new
