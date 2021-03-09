@@ -35,13 +35,22 @@ class Interface
         puts "Hello, #{user.name}! What would you like to do?"
         prompt.select "Would you like to login or register?" do |menu|
             menu.choice "Browse your bookmarked activities", -> {}
-            menu.choice "Browse all activities", -> {}
+            menu.choice "Browse all activities", -> {browse_all_helper}
             menu.choice "Browse your past activity log", -> {}
-            menu.choice "View suggestions based on what's bothering you", -> {}
+            menu.choice "View suggestions based on what's bothering you", -> {suggestions_menu_helper}
             menu.choice "Exit", -> {exit_app}
         end
     end
         
+    def browse_all_helper
+        Activity.browse_all(self)
+    end
+
+    def suggestions_menu_helper
+        Problem.suggestions_menu(self)
+    end
+
+
     def exit_app
         puts "See you again soon!"
     end

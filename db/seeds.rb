@@ -1,10 +1,14 @@
 User.destroy_all
 Activity.destroy_all
+Problem.destroy_all
+Solution.destroy_all
 # User_Activity.destroy_all
 # Bookmark.destroy_all
 
 User.reset_pk_sequence
 Activity.reset_pk_sequence
+Problem.reset_pk_sequence
+Solution.reset_pk_sequence
 # User_Activity.reset_pk_sequence
 # Bookmark.reset_pk_sequence
  
@@ -19,8 +23,8 @@ activity2 = Activity.create(name:"Go for a walk", description: "because the weat
 activity3 = Activity.create(name: "Yoga", description: "release stress")
 
 #problem
-problem1 = Problem.create(problem_type: "stressed")
-problem2 = Problem.create(problem_type: "tired")
+problem1 = Problem.create(problem_type: "I am stressed")
+problem2 = Problem.create(problem_type: "I am tired")
 
 #solution
 solution1 = Solution.create(problem_id: problem1.id, activity_id: activity1.id)
