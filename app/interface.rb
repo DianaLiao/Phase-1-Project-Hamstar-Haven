@@ -32,16 +32,21 @@ class Interface
     end
 
     def main_menu
+        system "clear"
         puts "Hello, #{user.name}! What would you like to do?"
-        prompt.select "Would you like to login or register?" do |menu|
-            menu.choice "Browse your bookmarked activities", -> {}
+        prompt.select "Here are your choices:" do |menu|
+            menu.choice "Browse your bookmarked activities", -> {placeholder}
             menu.choice "Browse all activities", -> {browse_all_helper}
-            menu.choice "Browse your past activity log", -> {}
+            menu.choice "Browse your past activity log", -> {browse_past_activities_helper}
             menu.choice "View suggestions based on what's bothering you", -> {suggestions_menu_helper}
             menu.choice "Exit", -> {exit_app}
         end
     end
         
+    def browse_past_activities_helper
+        User.browse_past_activities(self)
+    end
+
     def browse_all_helper
         Activity.browse_all(self)
     end
@@ -50,6 +55,11 @@ class Interface
         Problem.suggestions_menu(self)
     end
 
+    def placeholder
+        puts "Coming soon..."
+        prompt.keypress("Press any key to return to main menu")
+        main_menu
+    end
 
     def exit_app
         puts "See you again soon!"

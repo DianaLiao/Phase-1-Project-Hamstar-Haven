@@ -44,6 +44,38 @@ def self.register(interface_inst)
     interface_inst.user = new_user
 end
 
+def self.browse_past_activities(interface_inst)
+    user = interface_inst.user
+
+    interface_inst.prompt.select("What would you like to see?") do |menu|
+        menu.choice "Activities by frequency", -> {interface_inst.placeholder}
+        menu.choice "All activities done", -> {user.activity_log(interface_inst)}
+        menu.choice "Return to Main Menu", -> {interface_inst.main_menu}
+    end
+
+end
+
+def log_activity(activity, interface_inst)    
+    User_Activity.create(user_id: self.id, activity_id: activity.id)
+    puts "Excellent work!"
+
+    interface_inst.prompt.select("What would you like to do?") do |menu|
+        menu.choice "Return to Main Menu", -> {interface_inst.main_menu}
+        menu.choice "Save this activity to your Bookmarks", -> {interface_inst.placeholder}
+        menu.choice "Exit app", -> {interface_inst.exit_app}
+    end
+end
+
+def activity_log(interface_inst)
+    user_activities.each do |logged_activity|
+        puts "#{logged_activity.activity.name} on #{logged_activity.date}"
+    end
+
+    interface_inst.prompt.keypress("Press any key to return to previous menu")
+    User.browse_past_activities(interface_inst)
+
+end
+
 
 
 end
