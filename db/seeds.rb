@@ -14,7 +14,7 @@ user1 = User.create(name: "Diana", username: "diana", password: "sqkrz", birthda
 user2 = User.create(name: "Yuri", username: "yuri", password:"abc123", birthday: 2000-12-12)
 
 #activity
-activity1 = Activity.create(name:"Drink Water")
+activity1 = Activity.create(name:"Hydrate")
 activity2 = Activity.create(name:"Go for a walk")
 
 puts "all done"

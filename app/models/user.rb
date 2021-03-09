@@ -6,9 +6,9 @@ class User < ActiveRecord::Base
 
 def self.login
     puts " Please enter your username: "
-    username = gets.chomp
+    username = STDIN.gets.chomp
     puts " Please enter your password: "
-    password = gets.chomp
+    password = STDIN.gets.chomp
     user = User.find_by(username: username, password: password)
     until user
         # system "clear"
@@ -18,13 +18,21 @@ def self.login
     user
 end
 
-# def self.register
-#     puts " Please enter your username: "
-#     username = gets.chomp
-#     puts " Please enter your password: "
-#     password = gets.chomp
-#     user = User.create(usename: username, password: password)
-# end
+def self.register
+    puts " Please enter your username: "
+    username = STDIN.gets.chomp
+    user = User.find_by(username: username)
+    until !user
+        puts " Sorry this username has been taken. Please chooose another one !"
+        user = User.register
+    end
+    puts " Please enter your password: "
+    password = STDIN.gets.chomp
+    user = User.create(username: username, password: password)
+    puts " What would you like to be called ?"
+    name = STDIN.gets.chomp
+    user.name = name
+end
 
 
 
