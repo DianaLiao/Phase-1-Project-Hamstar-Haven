@@ -28,10 +28,10 @@ def self.register
     end
     puts " Please enter your password: "
     password = STDIN.gets.chomp
-    user = User.create(username: username, password: password)
     puts " What would you like to be called ?"
     name = STDIN.gets.chomp
-    user.name = name
+    user = User.create(name: name, username: username, password: password)
+    puts "Hello #{name}"
 end
 
 
