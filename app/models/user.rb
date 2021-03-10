@@ -81,7 +81,6 @@ def activities_by_frequency(session)
 
     activity_count = activities.group(:name).count
     list = activity_count.sort_by{|activity, count| count}.reverse
-
     list.each do |list_pair|
         puts "#{list_pair[0]} -> #{list_pair[1]}" 
     end
