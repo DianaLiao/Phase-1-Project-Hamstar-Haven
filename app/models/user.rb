@@ -45,10 +45,11 @@ def self.register
 end
 
 def self.browse_past_activities(session)
+    system "clear"
     user = session.user
 
     session.prompt.select("What would you like to see?") do |menu|
-        menu.choice "Activities by frequency", -> {session.placeholder}
+        menu.choice "Activities by frequency", -> {user.activities_by_frequency(session)}
         menu.choice "All activities done", -> {user.activity_log(session)}
         menu.choice "Return to Main Menu", -> {session.main_menu}
     end
@@ -61,7 +62,7 @@ def log_activity(activity, session)
 
     session.prompt.select("What would you like to do?") do |menu|
         menu.choice "Return to Main Menu", -> {session.main_menu}
-        menu.choice "Save this activity to your Bookmarks", -> {session.placeholder}
+        menu.choice "Save this activity to your Bookmarks", -> {Bookmark.favorite(activity,session)}
         menu.choice "Exit app", -> {session.exit_app}
     end
 end
@@ -76,9 +77,17 @@ def activity_log(session)
 
 end
 
-def frequent_activity(session)
-    user_activities.count do |logged_activity|
-        logged_activity.activity.id
+def activities_by_frequency(session)
+
+    activity_count = activities.group(:name).count
+    list = activity_count.sort_by{|activity, count| count}.reverse
+
+    list.each do |list_pair|
+        puts "#{list_pair[0]} -> #{list_pair[1]}" 
+    end
+
+    session.prompt.keypress("Press any key to return to the main menu")
+    session.main_menu
 
 end
 
