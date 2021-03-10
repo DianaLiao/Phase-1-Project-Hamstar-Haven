@@ -56,7 +56,7 @@ def self.browse_past_activities(interface_inst)
 end
 
 def log_activity(activity, interface_inst)    
-    User_Activity.create(user_id: self.id, activity_id: activity.id)
+    UserActivity.create(user_id: self.id, activity_id: activity.id)
     puts "Excellent work!"
 
     interface_inst.prompt.select("What would you like to do?") do |menu|
