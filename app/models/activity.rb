@@ -23,6 +23,7 @@ class Activity < ActiveRecord::Base
 
         current_activity = Activity.find_by(name: activity_choice)
         current_activity.activity_options(interface_inst)
+        
     end
 
     def activity_options(interface_inst)
