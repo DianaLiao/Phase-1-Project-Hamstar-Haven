@@ -76,7 +76,11 @@ def activity_log(session)
 
 end
 
+def frequent_activity(session)
+    user_activities.count do |logged_activity|
+        logged_activity.activity.id
 
+end
 
 end
 

@@ -60,4 +60,9 @@ solution13 = Solution.create(problem_id: problem3.id, activity_id: journal.id)
 solution14 = Solution.create(problem_id: problem3.id, activity_id: celebrate.id)
 solution15 = Solution.create(problem_id: problem3.id, activity_id: exercise.id)
 
+#bookmark
+bookmark1 = Bookmark.create(user_id: user1.id, activity_id: yoga.id)
+bookmark2 = Bookmark.create(user_id: user2.id, activity_id: eatwell.id)
+
 puts "all done"
+

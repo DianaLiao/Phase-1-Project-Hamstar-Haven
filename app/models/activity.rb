@@ -31,7 +31,7 @@ class Activity < ActiveRecord::Base
         puts self.description
         prompt.select("What would you like to do?") do |menu|
             menu.choice "Mark this activity as done", -> {session.user.log_activity(self, session)}
-            menu.choice "Save this activity later in your bookmarks", -> {session.placeholder}
+            menu.choice "Save this activity later in your bookmarks", -> {Bookmark.favorite(self, session)}
             menu.choice "Go back to Activities list", -> {Activity.browse_all(session)}
         end
 
