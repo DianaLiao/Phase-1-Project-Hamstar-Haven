@@ -8,7 +8,7 @@ class Problem < ActiveRecord::Base
         
         options.push(" Exit")
 
-        problem_name = session.prompt.select("What do you need help with?") do |menu|
+        problem_name = session.prompt.select ("What do you need help with?").bold do |menu|
             menu.help "(Use ↑/↓ and ←/→ arrow keys, press Enter to select)"
             menu.show_help :always
             menu.choices options
@@ -27,7 +27,7 @@ class Problem < ActiveRecord::Base
         options = self.activities.map { |activity| activity.name }.sort
         options.push(" Go back to previous menu")
 
-        activity_choice = session.prompt.select("Here are some suggested activities to help with that:") do |menu|
+        activity_choice = session.prompt.select ("Here are some suggested activities to help with that:").bold do |menu|
             menu.help "(Use ↑/↓ and ←/→ arrow keys, press Enter to select)"
             menu.show_help :always
             menu.choices options

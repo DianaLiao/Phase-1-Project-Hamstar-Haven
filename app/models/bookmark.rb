@@ -19,7 +19,7 @@ class Bookmark < ActiveRecord::Base
 
 
     def bookmark_options(session) 
-        session.prompt.select("What would you like to do?") do |menu|
+        session.prompt.select ("What would you like to do?").bold do |menu|
             menu.choice "Today is D Day. Lets do it !!!", -> {session.user.log_activity(activity,session)}
             menu.choice "Go to your Bookmarks list", -> {session.user.show_favorites(session)}
             menu.choice "Go to Activities list", -> {Activity.browse_all(session)}

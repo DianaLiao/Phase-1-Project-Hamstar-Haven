@@ -12,7 +12,7 @@ class Activity < ActiveRecord::Base
         
         options.push(" Exit to Main Menu")
         
-        activity_choice = session.prompt.select("Which activity would you like to look at?") do |menu|
+        activity_choice = session.prompt.select ("Which activity would you like to look at?").bold do |menu|
             menu.help "(Use ↑/↓ and ←/→ arrow keys, press Enter to select)"
             menu.show_help :always
             menu.choices options
@@ -28,9 +28,9 @@ class Activity < ActiveRecord::Base
 
     def activity_options(session)
         system "clear"
-        puts name
-        puts description
-        session.prompt.select("What would you like to do?") do |menu|
+        puts name.colorize(:green).bold
+        puts description.italic
+        session.prompt.select ("What would you like to do?").bold do |menu|
             menu.choice "Mark this activity as completed", -> {session.user.log_activity(self, session)}
             menu.choice "Save this activity in your Bookmarks", -> {Bookmark.favorite(self, session)}
             menu.choice "Go back to previous menu", -> {Activity.browse_all(session)}

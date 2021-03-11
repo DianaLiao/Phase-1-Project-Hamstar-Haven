@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
     def browse_past_activities(session)
         system "clear"
 
-        session.prompt.select("What would you like to see?") do |menu|
+        session.prompt.select ("What would you like to see?").bold do |menu|
             menu.choice "Number of each activity completed", -> {activities_by_frequency(session)}
             menu.choice "Log of all past activities", -> {activities_log(session)}
             menu.choice "Return to Main Menu", -> {session.main_menu}
@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
         accolades = ["Excellent work!", "Great job!", "High-five!", "Self-care ftw!"]
         puts accolades.sample
 
-        session.prompt.select("What would you like to do?") do |menu|
+        session.prompt.select ("What would you like to do?").bold do |menu|
             menu.choice "Save this activity to your Bookmarks", -> {Bookmark.favorite(activity,session)}
             menu.choice "Return to Main Menu", -> {session.main_menu}
             menu.choice "Exit app", -> {session.exit_app}
@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
         activity_count = activities.group(:name).count
         list = activity_count.sort_by{|activity, count| count}.reverse
         list.each do |list_pair|
-            puts "#{list_pair[0]} -> #{list_pair[1]}".colorize(:light_green).italic
+            puts "#{list_pair[0]} -> #{list_pair[1]}".italic
         end
         session.prompt.keypress("Press any key to return to previous menu")
         browse_past_activities(session)
@@ -90,7 +90,7 @@ class User < ActiveRecord::Base
     def show_favorites(session)
        options = self.favorites.map {|activity| activity.name}.sort.uniq
        options.push(" Exit to main menu")
-       bookmark_choice = session.prompt.select("Which activity would you like to look at?") do |menu|
+       bookmark_choice = session.prompt.select ("Which activity would you like to look at?").bold do |menu|
             menu.help "(Use ↑/↓ and ←/→ arrow keys, press Enter to select)"
             menu.show_help :always
             menu.choices options
