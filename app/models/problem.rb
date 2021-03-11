@@ -17,8 +17,9 @@ class Problem < ActiveRecord::Base
         current_problem = Problem.find_by(problem_type: problem_name)
         if current_problem == nil
             session.main_menu
+        elsif current_problem.class == Problem
+            current_problem.view_solutions(session)
         end
-        current_problem.view_solutions(session)
     end
 
 
@@ -37,8 +38,8 @@ class Problem < ActiveRecord::Base
         current_activity = Activity.find_by(name: activity_choice)
         if current_activity == nil
             Problem.suggestions_menu(session)
+        elsif current_activity.class == Activity
+            current_activity.activity_options(session)
         end
-        
-        current_activity.activity_options(session)
     end
 end

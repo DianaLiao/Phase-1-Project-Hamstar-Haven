@@ -22,8 +22,8 @@ class Activity < ActiveRecord::Base
         current_activity = Activity.find_by(name: activity_choice)
         if current_activity == nil
             session.main_menu
-        else
-        current_activity.activity_options(session)
+        elsif current_activity.class == Activity
+            current_activity.activity_options(session)
         end
     end
 

@@ -71,8 +71,8 @@ class User < ActiveRecord::Base
     end
 
     def activities_log(session)
-        user_activities.each do |logged_activity|
-            puts "#{logged_activity.activity.name} on #{logged_activity.date}"
+        user_activities.each do |log_entry|
+            puts "#{log_entry.activity.name} on #{log_entry.created_at}"
         end
 
         session.prompt.keypress("Press any key to return to previous menu")
@@ -103,9 +103,9 @@ class User < ActiveRecord::Base
        current_bookmark = Bookmark.find_by(user_id: self.id, activity_id: activity.id)
        if bookmark_choice == nil
             session.main_menu
-        end
-
-        current_bookmark.bookmark_options(session)
+       elsif bookmark_choice.class == Bookmark
+            current_bookmark.bookmark_options(session)
+       end
     end
 
 
