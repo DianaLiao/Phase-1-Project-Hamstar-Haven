@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
         user = User.find_by(username: username, password: password)
 
         until user 
-            # system "clear"
             puts "Incorrect username or password"
             user = User.login(session)
         end
@@ -30,12 +29,12 @@ class User < ActiveRecord::Base
 
         password = session.prompt.mask("Please enter your password:")
 
-        password_confirm = session.prompt.mask("Please confirm your password:")
+        # password_confirm = session.prompt.mask("Please confirm your password:")
 
-        until password == password_confirm
-            puts "Your passwords did not match. Please try registering again."
-            user = User.register(session)
-        end
+        # until password == password_confirm
+        #     puts "Your passwords did not match. Please try registering again."
+        #     user = User.register(session)
+        # end
 
         name = session.prompt.ask("What would you like to be called?")
 
@@ -108,7 +107,7 @@ class User < ActiveRecord::Base
         reload
         options = self.favorites.map {|activity| activity.name}.sort.uniq
         options.push(" Exit to main menu")
-        bookmark_choice = session.prompt.select ("Which activity would you like to look at?").bold do |menu|
+        bookmark_choice = session.prompt.select ("Which bookmarked activity would you like to look at?").bold do |menu|
             menu.help "(Use ↑/↓ and ←/→ arrow keys, press Enter to select)"
             menu.show_help :always
             menu.choices options
@@ -131,7 +130,7 @@ class User < ActiveRecord::Base
         if delete == true
             Bookmark.destroy(bookmark.id)
         end
-            session.main_menu
+            show_favorites(session)
     end
 
 

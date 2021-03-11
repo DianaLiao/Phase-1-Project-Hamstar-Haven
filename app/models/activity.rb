@@ -29,7 +29,7 @@ class Activity < ActiveRecord::Base
     def activity_options(session)
         system "clear"
         puts name.colorize(:green).bold
-        puts description.italic
+        puts description.light_white.italic
         session.prompt.select ("What would you like to do?").bold do |menu|
             menu.choice "Mark this activity as completed", -> {complete_activity_helper(session)}
             menu.choice "Save this activity in your Bookmarks", -> {save_bookmark_helper(session)}
@@ -38,6 +38,9 @@ class Activity < ActiveRecord::Base
     end
 
     def bookmark_options(session,bookmark)
+        system "clear"
+        puts name.colorize(:green).bold
+        puts description.light_white.italic
         session.prompt.select ("What would you like to do?").bold do |menu|
             menu.choice "Today is D Day. Lets do it !!!", -> {complete_activity_helper(session)}
             menu.choice "Go to your Bookmarks list", -> {session.user.show_favorites(session)}
