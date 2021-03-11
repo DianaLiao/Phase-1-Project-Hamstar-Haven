@@ -37,13 +37,13 @@ class Activity < ActiveRecord::Base
         end
     end
 
-    def bookmark_options(session)
+    def bookmark_options(session,bookmark)
         session.prompt.select ("What would you like to do?").bold do |menu|
             menu.choice "Today is D Day. Lets do it !!!", -> {complete_activity_helper(session)}
             menu.choice "Go to your Bookmarks list", -> {session.user.show_favorites(session)}
             menu.choice "Go to Activities list", -> {Activity.browse_all(session)}
             menu.choice "Return to Main Menu", -> {session.main_menu}
-            menu.choice "Remove from your Bookmarks", -> {session.user.remove_bookmark(session)}
+            menu.choice "Remove from your Bookmarks", -> {session.user.remove_bookmark(session,bookmark)}
         end
     end
     

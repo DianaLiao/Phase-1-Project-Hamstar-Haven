@@ -76,7 +76,8 @@ class User < ActiveRecord::Base
         if answer == true
             user_activities.destroy_all
         end
-            session.main_menu
+        
+        session.main_menu
         
     end
 
@@ -84,8 +85,6 @@ class User < ActiveRecord::Base
         user_activities.each do |log_entry|
             puts "#{log_entry.activity.name} on #{log_entry.created_at.to_date}"
         end
-
-        binding.pry
 
         session.prompt.keypress("Press any key to return to previous menu")
         browse_past_activities(session)
@@ -103,6 +102,7 @@ class User < ActiveRecord::Base
     end
 
     def show_favorites(session)
+        reload
        options = self.favorites.map {|activity| activity.name}.sort.uniq
        options.push(" Exit to main menu")
        bookmark_choice = session.prompt.select ("Which activity would you like to look at?").bold do |menu|
@@ -112,25 +112,24 @@ class User < ActiveRecord::Base
        end
         
        activity = Activity.find_by(name: bookmark_choice)
+       current_bookmark = Bookmark.find_by(user_id: self.id, activity_id: activity.id)
        
        if activity == nil 
             session.main_menu
        elsif activity.class == Activity
-            activity.bookmark_options(session)
+            activity.bookmark_options(session,current_bookmark)
        end
 
-       #current_bookmark = Bookmark.find_by(user_id: self.id, activity_id: activity.id)
     end
 
 
-    # def remove_bookmark(session)
-    #     delete = 
-    #      session.prompt.yes?("Are you sure you want to remove this activity from your bookmark?") do |q|
-    #         q.suffix "Yes / No"
-            
-
-    #     end
-    # end
+    def remove_bookmark(session,bookmark)
+        delete = session.prompt.yes?("Are you sure you want to remove this activity from your bookmark?") 
+        if delete == true
+            Bookmark.destroy(bookmark.id)
+        end
+            session.main_menu
+    end
 
 
     def view_profile(session)
