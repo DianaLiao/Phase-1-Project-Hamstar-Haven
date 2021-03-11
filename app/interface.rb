@@ -56,7 +56,7 @@ class Interface
     def suggestions_menu_helper
         Problem.suggestions_menu(self)
     end
-
+    
     def profile_helper
         user.view_profile(self)
     end
@@ -70,7 +70,7 @@ class Interface
 
     def quote_helper
         Quote.new.pretty
-        puts "\n \n Inspirational quotes provided by ZenQuotes API (https://zenquotes.io/)\n"
+        puts "\n \n Inspirational quotes provided by ZenQuotes API (https://zenquotes.io/)\n\n"
 
         prompt.keypress("Press any key to return to main menu")
         main_menu

@@ -10,8 +10,8 @@ class Quote
     quote = hash["q"] 
     source = hash["a"]
 
-    puts quote
-    puts "- #{source}"
+    puts quote.light_cyan
+    puts "- #{source}".light_white
 
   end
 
