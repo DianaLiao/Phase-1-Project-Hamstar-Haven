@@ -62,6 +62,7 @@ class User < ActiveRecord::Base
 
         session.prompt.select ("What would you like to do?").bold do |menu|
             menu.choice "Save this activity to your Bookmarks", -> {save_bookmark_helper(activity,session)}
+            menu.choice "See your Bookmarks", -> {show_favorites(session)}
             menu.choice "Return to Main Menu", -> {session.main_menu}
             menu.choice "Exit app", -> {session.exit_app}
         end
@@ -82,6 +83,7 @@ class User < ActiveRecord::Base
     end
 
     def activities_log(session)
+        reload
         user_activities.each do |log_entry|
             puts "#{log_entry.activity.name} on #{log_entry.created_at.to_date}"
         end
@@ -92,6 +94,7 @@ class User < ActiveRecord::Base
     end
 
     def activities_by_frequency(session)
+        reload
         activity_count = activities.group(:name).count
         list = activity_count.sort_by{|activity, count| count}.reverse
         list.each do |list_pair|
@@ -103,22 +106,22 @@ class User < ActiveRecord::Base
 
     def show_favorites(session)
         reload
-       options = self.favorites.map {|activity| activity.name}.sort.uniq
-       options.push(" Exit to main menu")
-       bookmark_choice = session.prompt.select ("Which activity would you like to look at?").bold do |menu|
+        options = self.favorites.map {|activity| activity.name}.sort.uniq
+        options.push(" Exit to main menu")
+        bookmark_choice = session.prompt.select ("Which activity would you like to look at?").bold do |menu|
             menu.help "(Use ↑/↓ and ←/→ arrow keys, press Enter to select)"
             menu.show_help :always
             menu.choices options
-       end
+        end
         
-       activity = Activity.find_by(name: bookmark_choice)
-       current_bookmark = Bookmark.find_by(user_id: self.id, activity_id: activity.id)
-       
-       if activity == nil 
+        activity = Activity.find_by(name: bookmark_choice)
+        
+        if activity == nil 
             session.main_menu
-       elsif activity.class == Activity
+        elsif activity.class == Activity
+            current_bookmark = Bookmark.find_by(user_id: self.id, activity_id: activity.id)
             activity.bookmark_options(session,current_bookmark)
-       end
+        end
 
     end
 

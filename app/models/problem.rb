@@ -37,7 +37,7 @@ class Problem < ActiveRecord::Base
         if current_activity == nil
             Problem.suggestions_menu(session)
         elsif current_activity.class == Activity
-            current_activity.complete_activity_helper(session)
+            current_activity.activity_options(session)
         end
     end
 end

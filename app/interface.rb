@@ -3,7 +3,7 @@ class Interface
     attr_reader :prompt
 
     def initialize
-        @prompt = TTY::Prompt.new
+        @prompt = TTY::Prompt.new(interrupt: :exit, symbols: {marker:"⭐️"}, prefix: "[❔] ")
     end
 
     def run
