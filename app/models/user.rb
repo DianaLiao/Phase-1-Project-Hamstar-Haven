@@ -61,10 +61,14 @@ class User < ActiveRecord::Base
         puts accolades.sample
 
         session.prompt.select ("What would you like to do?").bold do |menu|
-            menu.choice "Save this activity to your Bookmarks", -> {Bookmark.favorite(activity,session)}
+            menu.choice "Save this activity to your Bookmarks", -> {save_bookmark_helper(activity,session)}
             menu.choice "Return to Main Menu", -> {session.main_menu}
             menu.choice "Exit app", -> {session.exit_app}
         end
+    end
+
+    def save_bookmark_helper(activity, session)
+        Bookmark.favorite(activity,session)
     end
 
     def activities_log(session)
@@ -97,12 +101,14 @@ class User < ActiveRecord::Base
        end
         
        activity = Activity.find_by(name: bookmark_choice)
-       current_bookmark = Bookmark.find_by(user_id: self.id, activity_id: activity.id)
-       if bookmark_choice == nil
+       
+       if activity == nil 
             session.main_menu
-       elsif bookmark_choice.class == Bookmark
-            current_bookmark.bookmark_options(session)
+       elsif activity.class == Activity
+            activity.bookmark_options(session)
        end
+
+       #current_bookmark = Bookmark.find_by(user_id: self.id, activity_id: activity.id)
     end
 
 
