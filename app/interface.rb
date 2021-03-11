@@ -24,11 +24,11 @@ class Interface
     end
 
     def login_helper
-        @user = User.login
+        @user = User.login(self)
     end
 
     def register_helper
-        @user = User.register
+        @user = User.register(self)
     end
 
     def main_menu

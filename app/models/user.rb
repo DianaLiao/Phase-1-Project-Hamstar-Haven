@@ -5,10 +5,9 @@ class User < ActiveRecord::Base
     has_many :favorites, through: :bookmarks, source: :activity
 
 
-    def self.login
-        prompt = TTY::Prompt.new
-        username = prompt.ask("Please enter your username:")
-        password = prompt.mask("Please enter your password:")
+    def self.login(session)
+        username = session.prompt.ask("Please enter your username:")
+        password = session.prompt.mask("Please enter your password:")
 
         user = User.find_by(username: username, password: password)
 
@@ -20,7 +19,7 @@ class User < ActiveRecord::Base
         user
     end
 
-    def self.register
+    def self.register(session)
         username = session.prompt.ask("Please enter your desired username:")
         user = User.find_by(username: username)
 
@@ -31,16 +30,16 @@ class User < ActiveRecord::Base
 
         password = session.prompt.mask("Please enter your password:")
 
-        # password_confirm = prompt.mask("Please confirm your password:")
+        password_confirm = session.prompt.mask("Please confirm your password:")
 
-        # until password == password_confirm
-        #     puts "Your passwords did not match. Please try registering again."
-        #     user = User.register
-        # end
+        until password == password_confirm
+            puts "Your passwords did not match. Please try registering again."
+            user = User.register
+        end
 
         name = session.prompt.ask("What would you like to be called?")
 
-        new_user = User.create(username: username, password: password, name: name)
+        user = User.create(username: username, password: password, name: name)
     end
 
     def browse_past_activities(session)
