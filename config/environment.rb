@@ -20,3 +20,6 @@ require_all 'app'
 #     end
 #   end
 # end
+
+require 'json'
+require 'rest-client'
