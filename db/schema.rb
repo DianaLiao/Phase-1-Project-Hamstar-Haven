@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_09_161409) do
+ActiveRecord::Schema.define(version: 2021_03_11_121807) do
 
   create_table "activities", force: :cascade do |t|
     t.string "name"
@@ -44,6 +44,9 @@ ActiveRecord::Schema.define(version: 2021_03_09_161409) do
     t.string "username"
     t.string "password"
     t.date "birthday"
+    t.string "avatar"
+    t.text "motto"
+    t.string "happy_url"
   end
 
 end

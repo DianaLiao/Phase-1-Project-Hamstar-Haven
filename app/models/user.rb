@@ -122,7 +122,48 @@ class User < ActiveRecord::Base
     # end
 
 
+    def view_profile(session)
+        puts "Name: #{name}"
+        puts "Avatar: #{avatar}"
+        puts "Motto: #{motto}"
+        puts "Happy place (URL): #{happy_url}"
+
+        want_to_edit = session.prompt.yes?("Would you like to edit your profile?")
+        if want_to_edit == true
+            profile_editor(session)
+        elsif want_to_edit == false
+            session.main_menu
+        end
+    end
+
+    def profile_editor(session)
+        session.prompt.select "What would you like to change?" do |menu|
+            menu.choice "Name", -> {name_helper(session)}
+            menu.choice "Avatar", -> {avatar_helper(session)}
+            menu.choice "Motto", -> {motto_helper(session)}
+            menu.choice "Happy place (URL):", -> {happy_place_helper(session)}
+            menu.choice "Nevermind", -> {session.main_menu}
+        end
+    end
+
+    def name_helper(session)
+        new_name = session.prompt.ask "Your current name is #{name}. What would you like to be called?"
+        update(name: new_name)
+        puts "Great, we'll call you #{name}!"
+        view_profile(session)
+    end
     
+    def avatar_helper(session)
+        
+    end
+
+    def motto_helper(session)
+    
+    end
+
+    def happy_place_helper(session)
+
+    end
 
 
 

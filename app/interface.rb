@@ -39,6 +39,7 @@ class Interface
             menu.choice "Browse all activities", -> {browse_all_helper}
             menu.choice "Browse your past activity log", -> {browse_past_activities_helper}
             menu.choice "View suggestions based on what's bothering you", -> {suggestions_menu_helper}
+            menu.choice "View your profile", -> {profile_helper}
             menu.choice "Exit", -> {exit_app}
         end
     end
@@ -53,6 +54,10 @@ class Interface
 
     def suggestions_menu_helper
         Problem.suggestions_menu(self)
+    end
+
+    def profile_helper
+        user.view_profile(self)
     end
 
     def placeholder
