@@ -13,7 +13,7 @@ class Interface
     end
 
     def welcome
-        puts "Welcome! ヽ(´▽`)/ "
+        puts "Welcome to Hamstar Haven! 🐹"
     end
 
     def ask_for_login_or_register
@@ -33,7 +33,7 @@ class Interface
 
     def main_menu
         system "clear"
-        puts "Hello, #{user.name}! What would you like to do?"
+        puts "Hello, #{user.name} #{user.avatar}! \nWhat would you like to do?"
         prompt.select "Here are your choices:" do |menu|
             menu.choice "Browse all activities", -> {browse_all_helper}
             menu.choice "Browse your bookmarked activities", -> {user.show_favorites(self)}

@@ -85,6 +85,8 @@ class User < ActiveRecord::Base
             puts "#{log_entry.activity.name} on #{log_entry.created_at.to_date}"
         end
 
+        binding.pry
+
         session.prompt.keypress("Press any key to return to previous menu")
         browse_past_activities(session)
 
@@ -143,12 +145,6 @@ class User < ActiveRecord::Base
             menu.choice "Go back to the Main Menu", -> {session.main_menu}
         end
 
-        # want_to_edit = session.prompt.yes?("Would you like to edit your profile?")
-        # if want_to_edit == true
-        #     profile_editor(session)
-        # elsif want_to_edit == false
-        #     session.main_menu
-        # end
     end
 
     def profile_editor(session)
