@@ -2,15 +2,15 @@ User.destroy_all
 Activity.destroy_all
 Problem.destroy_all
 Solution.destroy_all
-# User_Activity.destroy_all
-# Bookmark.destroy_all
+UserActivity.destroy_all
+Bookmark.destroy_all
 
 User.reset_pk_sequence
 Activity.reset_pk_sequence
 Problem.reset_pk_sequence
 Solution.reset_pk_sequence
-# User_Activity.reset_pk_sequence
-# Bookmark.reset_pk_sequence
+UserActivity.reset_pk_sequence
+Bookmark.reset_pk_sequence
  
 
 #user 

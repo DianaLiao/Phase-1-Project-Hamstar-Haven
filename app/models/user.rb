@@ -21,8 +21,7 @@ class User < ActiveRecord::Base
     end
 
     def self.register
-        prompt = TTY::Prompt.new
-        username = prompt.ask("Please enter your desired username:")
+        username = session.prompt.ask("Please enter your desired username:")
         user = User.find_by(username: username)
 
         until !user
@@ -30,7 +29,7 @@ class User < ActiveRecord::Base
             user = User.register
         end
 
-        password = prompt.mask("Please enter your password:")
+        password = session.prompt.mask("Please enter your password:")
 
         # password_confirm = prompt.mask("Please confirm your password:")
 
@@ -39,19 +38,17 @@ class User < ActiveRecord::Base
         #     user = User.register
         # end
 
-        name = prompt.ask("What would you like to be called?")
+        name = session.prompt.ask("What would you like to be called?")
 
         new_user = User.create(username: username, password: password, name: name)
     end
 
-    def self.browse_past_activities(session)
+    def browse_past_activities(session)
         system "clear"
-        prompt = TTY::Prompt.new
-        user = session.user
 
-        prompt.select("What would you like to see?") do |menu|
-            menu.choice "Number of each activity completed", -> {user.activities_by_frequency(session)}
-            menu.choice "Log of all past activities", -> {user.activities_log(session)}
+        session.prompt.select("What would you like to see?") do |menu|
+            menu.choice "Number of each activity completed", -> {activities_by_frequency(session)}
+            menu.choice "Log of all past activities", -> {activities_log(session)}
             menu.choice "Return to Main Menu", -> {session.main_menu}
         end
 
@@ -72,11 +69,11 @@ class User < ActiveRecord::Base
 
     def activities_log(session)
         user_activities.each do |log_entry|
-            puts "#{log_entry.activity.name} on #{log_entry.created_at}"
+            puts "#{log_entry.activity.name} on #{log_entry.created_at.to_date}"
         end
 
         session.prompt.keypress("Press any key to return to previous menu")
-        User.browse_past_activities(session)
+        browse_past_activities(session)
 
     end
 
@@ -86,8 +83,8 @@ class User < ActiveRecord::Base
         list.each do |list_pair|
             puts "#{list_pair[0]} -> #{list_pair[1]}".colorize(:light_green).italic
         end
-        session.prompt.keypress("Press any key to return to the main menu")
-        session.main_menu
+        session.prompt.keypress("Press any key to return to previous menu")
+        browse_past_activities(session)
     end
 
     def show_favorites(session)

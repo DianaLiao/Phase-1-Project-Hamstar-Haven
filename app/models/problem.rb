@@ -24,12 +24,10 @@ class Problem < ActiveRecord::Base
 
 
     def view_solutions(session)
-        prompt = TTY::Prompt.new
-        
         options = self.activities.map { |activity| activity.name }.sort
         options.push(" Go back to previous menu")
 
-        activity_choice = prompt.select("Here are some suggested activities to help with that:") do |menu|
+        activity_choice = session.prompt.select("Here are some suggested activities to help with that:") do |menu|
             menu.help "(Use ↑/↓ and ←/→ arrow keys, press Enter to select)"
             menu.show_help :always
             menu.choices options

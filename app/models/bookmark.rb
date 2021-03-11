@@ -13,9 +13,8 @@ class Bookmark < ActiveRecord::Base
         else 
             bookmark = Bookmark.create(user_id: user.id, activity_id: activity.id)
             puts "Bookmark saved!"
-            bookmark.bookmark_options
+            bookmark.bookmark_options(session)
         end
-
     end
 
 

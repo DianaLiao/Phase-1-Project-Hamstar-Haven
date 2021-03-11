@@ -44,7 +44,7 @@ class Interface
     end
         
     def browse_past_activities_helper
-        User.browse_past_activities(self)
+        user.browse_past_activities(self)
     end
 
     def browse_all_helper
