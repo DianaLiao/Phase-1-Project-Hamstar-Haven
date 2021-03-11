@@ -39,6 +39,7 @@ class Interface
             menu.choice "Browse your bookmarked activities", -> {user.show_favorites(self)}
             menu.choice "Browse your past activity log", -> {browse_past_activities_helper}
             menu.choice "View suggestions based on what's bothering you", -> {suggestions_menu_helper}
+            menu.choice "Random inspirational quote", -> {quote_helper}
             menu.choice "View your profile", -> {profile_helper}
             menu.choice "Exit", -> {exit_app}
         end
@@ -63,6 +64,14 @@ class Interface
     def happy_url_helper
         Launchy.open(user.happy_url)
         puts "I hope that helped!"
+        prompt.keypress("Press any key to return to main menu")
+        main_menu
+    end
+
+    def quote_helper
+        Quote.new.pretty
+        puts "\n \n Inspirational quotes provided by ZenQuotes API (https://zenquotes.io/)\n"
+
         prompt.keypress("Press any key to return to main menu")
         main_menu
     end

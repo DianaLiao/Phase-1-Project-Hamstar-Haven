@@ -12,3 +12,4 @@ gem 'colorize'
 gem 'tty-prompt'
 
 gem 'launchy'
+gem 'rest-client'
