@@ -35,7 +35,7 @@ class Interface
         system "clear"
         puts "Hello, #{user.name}! What would you like to do?"
         prompt.select "Here are your choices:" do |menu|
-            menu.choice "Browse your bookmarked activities", -> {placeholder}
+            menu.choice "Browse your bookmarked activities", -> {user.show_favorites(self)}
             menu.choice "Browse all activities", -> {browse_all_helper}
             menu.choice "Browse your past activity log", -> {browse_past_activities_helper}
             menu.choice "View suggestions based on what's bothering you", -> {suggestions_menu_helper}

@@ -28,6 +28,7 @@ class Activity < ActiveRecord::Base
     def activity_options(session)
         system "clear"
         prompt = TTY::Prompt.new
+        puts self.name
         puts self.description
         prompt.select("What would you like to do?") do |menu|
             menu.choice "Mark this activity as done", -> {session.user.log_activity(self, session)}
@@ -36,6 +37,7 @@ class Activity < ActiveRecord::Base
         end
 
     end
+    
 
 
 
