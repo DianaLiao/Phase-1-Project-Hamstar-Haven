@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
         until user 
             # system "clear"
             puts "Incorrect username or password"
-            user = User.login 
+            user = User.login(session)
         end
         user
     end
@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 
         until !user
             puts "Sorry this username has been taken. Please chooose another one!"
-            user = User.register
+            user = User.register(session)
         end
 
         password = session.prompt.mask("Please enter your password:")
@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
 
         until password == password_confirm
             puts "Your passwords did not match. Please try registering again."
-            user = User.register
+            user = User.register(session)
         end
 
         name = session.prompt.ask("What would you like to be called?")
@@ -49,6 +49,7 @@ class User < ActiveRecord::Base
             menu.choice "Number of each activity completed", -> {activities_by_frequency(session)}
             menu.choice "Log of all past activities", -> {activities_log(session)}
             menu.choice "Return to Main Menu", -> {session.main_menu}
+            menu.choice "Delete all previously logged activities", -> {delete_log_helper(session)}
         end
 
     end
@@ -68,6 +69,15 @@ class User < ActiveRecord::Base
 
     def save_bookmark_helper(activity, session)
         Bookmark.favorite(activity,session)
+    end
+
+    def delete_log_helper(session)
+        answer = session.prompt.yes?("Are you sure you would like to delete your past logged activities? This cannot be undone.")
+        if answer == true
+            user_activities.destroy_all
+        else
+            session.main_menu
+        end
     end
 
     def activities_log(session)
