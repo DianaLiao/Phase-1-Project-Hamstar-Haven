@@ -75,17 +75,16 @@ class User < ActiveRecord::Base
         answer = session.prompt.yes?("Are you sure you would like to delete your past logged activities? This cannot be undone.")
         if answer == true
             user_activities.destroy_all
-        else
-            session.main_menu
         end
+        
+        session.main_menu
+        
     end
 
     def activities_log(session)
         user_activities.each do |log_entry|
             puts "#{log_entry.activity.name} on #{log_entry.created_at.to_date}"
         end
-
-        binding.pry
 
         session.prompt.keypress("Press any key to return to previous menu")
         browse_past_activities(session)
