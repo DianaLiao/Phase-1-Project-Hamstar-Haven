@@ -75,9 +75,9 @@ class User < ActiveRecord::Base
         answer = session.prompt.yes?("Are you sure you would like to delete your past logged activities? This cannot be undone.")
         if answer == true
             user_activities.destroy_all
-        else
-            session.main_menu
         end
+            session.main_menu
+        
     end
 
     def activities_log(session)
