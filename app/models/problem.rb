@@ -6,18 +6,18 @@ class Problem < ActiveRecord::Base
         system "clear"
         options = Problem.all.map { |problem| problem.problem_type }.sort
         
-        options.push("Exit")
+        options.push(" Exit")
 
         problem_name = session.prompt.select("What do you need help with?") do |menu|
-            menu.help "Press right/left for more options"
+            menu.help "(Use ↑/↓ and ←/→ arrow keys, press Enter to select)"
+            menu.show_help :always
             menu.choices options
         end
 
-        if problem_name == "Exit"
+        current_problem = Problem.find_by(problem_type: problem_name)
+        if current_problem == nil
             session.main_menu
         end
-
-        current_problem = Problem.find_by(problem_type: problem_name)
         current_problem.view_solutions(session)
     end
 
@@ -26,18 +26,19 @@ class Problem < ActiveRecord::Base
         prompt = TTY::Prompt.new
         
         options = self.activities.map { |activity| activity.name }.sort
-        options.push("Go back to previous menu")
+        options.push(" Go back to previous menu")
 
-        activity_choice = prompt.select("Here are some suggestions!") do |menu|
-            menu.help "Press right/left for more options"
+        activity_choice = prompt.select("Here are some suggested activities to help with that:") do |menu|
+            menu.help "(Use ↑/↓ and ←/→ arrow keys, press Enter to select)"
+            menu.show_help :always
             menu.choices options
         end
 
-        if activity_choice == "Go back to previous menu"
+        current_activity = Activity.find_by(name: activity_choice)
+        if current_activity == nil
             Problem.suggestions_menu(session)
         end
-
-        current_activity = Activity.find_by(name: activity_choice)
+        
         current_activity.activity_options(session)
     end
 end

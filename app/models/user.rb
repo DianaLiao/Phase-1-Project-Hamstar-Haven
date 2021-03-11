@@ -35,8 +35,8 @@ class User < ActiveRecord::Base
         # password_confirm = prompt.mask("Please confirm your password:")
 
         # until password == password_confirm
-        #     puts "Your passwords did not match. Please try registration again."
-        #     User.register(interface_inst)
+        #     puts "Your passwords did not match. Please try registering again."
+        #     user = User.register
         # end
 
         name = prompt.ask("What would you like to be called?")
@@ -46,11 +46,12 @@ class User < ActiveRecord::Base
 
     def self.browse_past_activities(session)
         system "clear"
+        prompt = TTY::Prompt.new
         user = session.user
 
-        session.prompt.select("What would you like to see?") do |menu|
-            menu.choice "Activities by frequency", -> {user.activities_by_frequency(session)}
-            menu.choice "All activities done", -> {user.activity_log(session)}
+        prompt.select("What would you like to see?") do |menu|
+            menu.choice "Number of each activity completed", -> {user.activities_by_frequency(session)}
+            menu.choice "Log of all past activities", -> {user.activities_log(session)}
             menu.choice "Return to Main Menu", -> {session.main_menu}
         end
 
@@ -58,16 +59,18 @@ class User < ActiveRecord::Base
 
     def log_activity(activity, session)    
         UserActivity.create(user_id: self.id, activity_id: activity.id)
-        puts "Excellent work!"
+        
+        accolades = ["Excellent work!", "Great job!", "High-five!", "Self-care ftw!"]
+        puts accolades.sample
 
         session.prompt.select("What would you like to do?") do |menu|
-            menu.choice "Return to Main Menu", -> {session.main_menu}
             menu.choice "Save this activity to your Bookmarks", -> {Bookmark.favorite(activity,session)}
+            menu.choice "Return to Main Menu", -> {session.main_menu}
             menu.choice "Exit app", -> {session.exit_app}
         end
     end
 
-    def activity_log(session)
+    def activities_log(session)
         user_activities.each do |logged_activity|
             puts "#{logged_activity.activity.name} on #{logged_activity.date}"
         end
@@ -91,16 +94,18 @@ class User < ActiveRecord::Base
        options = self.favorites.map {|activity| activity.name}.sort.uniq
        options.push(" Exit to main menu")
        bookmark_choice = session.prompt.select("Which activity would you like to look at?") do |menu|
-             menu.help "Press right/left for more options"
-             menu.choices options
+            menu.help "(Use ↑/↓ and ←/→ arrow keys, press Enter to select)"
+            menu.show_help :always
+            menu.choices options
        end
-        if bookmark_choice == "Exit to Main Menu"
+        
+       activity = Activity.find_by(name: bookmark_choice)
+       current_bookmark = Bookmark.find_by(user_id: self.id, activity_id: activity.id)
+       if bookmark_choice == nil
             session.main_menu
         end
-        activity = Activity.find_by(name: bookmark_choice)
-        current_bookmark = Bookmark.find_by(user_id: self.id, activity_id: activity.id)
+
         current_bookmark.bookmark_options(session)
-       
     end
 
 

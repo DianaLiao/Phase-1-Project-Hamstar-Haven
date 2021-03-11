@@ -8,38 +8,37 @@ class Activity < ActiveRecord::Base
 
     def self.browse_all(session)
         system "clear"
+        prompt = TTY::Prompt.new
         options = Activity.all.map { |activity| activity.name }.sort
         
-        options.push("Exit to Main Menu")
+        options.push(" Exit to Main Menu")
         
-        activity_choice = session.prompt.select("Which activity would you like to look at?") do |menu|
-            menu.help "Press right/left for more options"
+        activity_choice = prompt.select("Which activity would you like to look at?") do |menu|
+            menu.help "(Use ↑/↓ and ←/→ arrow keys, press Enter to select)"
+            menu.show_help :always
             menu.choices options
         end
 
-        if activity_choice == "Exit to Main Menu"
-            session.main_menu
-        end
-
         current_activity = Activity.find_by(name: activity_choice)
+        if current_activity == nil
+            session.main_menu
+        else
         current_activity.activity_options(session)
+        end
     end
 
     def activity_options(session)
         system "clear"
         prompt = TTY::Prompt.new
-        puts self.name
-        puts self.description
+        puts name
+        puts description
         prompt.select("What would you like to do?") do |menu|
-            menu.choice "Mark this activity as done", -> {session.user.log_activity(self, session)}
-            menu.choice "Save this activity later in your bookmarks", -> {Bookmark.favorite(self, session)}
-            menu.choice "Go back to Activities list", -> {Activity.browse_all(session)}
+            menu.choice "Mark this activity as completed", -> {session.user.log_activity(self, session)}
+            menu.choice "Save this activity in your Bookmarks", -> {Bookmark.favorite(self, session)}
+            menu.choice "Go back to previous menu", -> {Activity.browse_all(session)}
         end
-
     end
     
-
-
 
 end
 
