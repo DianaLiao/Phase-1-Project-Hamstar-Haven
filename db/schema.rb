@@ -44,9 +44,9 @@ ActiveRecord::Schema.define(version: 2021_03_11_121807) do
     t.string "username"
     t.string "password"
     t.date "birthday"
-    t.string "avatar"
-    t.text "motto"
-    t.string "happy_url"
+    t.string "avatar", default: "😊"
+    t.text "motto", default: "Be the Hamstar"
+    t.string "happy_url", default: "https://www.reddit.com/r/aww/"
   end
 
 end

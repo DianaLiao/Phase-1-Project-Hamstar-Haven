@@ -60,6 +60,13 @@ class Interface
         user.view_profile(self)
     end
 
+    def happy_url_helper
+        Launchy.open(user.happy_url)
+        puts "I hope that helped!"
+        prompt.keypress("Press any key to return to main menu")
+        main_menu
+    end
+
     def placeholder
         puts "Coming soon..."
         prompt.keypress("Press any key to return to main menu")
