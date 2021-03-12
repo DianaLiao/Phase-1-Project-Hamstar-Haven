@@ -142,7 +142,6 @@ class User < ActiveRecord::Base
 
         choice = session.prompt.select "What would you like to do?" do |menu|
             menu.choice "Edit your profile", -> {profile_editor(session)}
-            menu.choice "Go to your Happy Place", -> {session.happy_url_helper}
             menu.choice "Go back to the Main Menu", -> {session.main_menu}
         end
 

@@ -35,11 +35,13 @@ class Interface
         system "clear"
         puts "Hello, #{user.name} #{user.avatar}! \nWhat would you like to do?"
         prompt.select "Here are your choices:" do |menu|
+            menu.per_page 8
             menu.choice "Browse all activities", -> {browse_all_helper}
             menu.choice "Browse your bookmarked activities", -> {user.show_favorites(self)}
             menu.choice "Browse your past activity log", -> {browse_past_activities_helper}
             menu.choice "View suggestions based on what's bothering you", -> {suggestions_menu_helper}
             menu.choice "Random inspirational quote", -> {quote_helper}
+            menu.choice "Go to your happy place", -> {happy_url_helper}
             menu.choice "View your profile", -> {profile_helper}
             menu.choice "Exit", -> {exit_app}
         end
