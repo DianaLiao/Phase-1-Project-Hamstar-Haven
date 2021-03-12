@@ -6,7 +6,7 @@ class Problem < ActiveRecord::Base
         system "clear"
         options = Problem.all.map { |problem| problem.problem_type }.sort
         
-        options.push(" Exit")
+        options.push(" Return to Main Menu")
 
         problem_name = session.prompt.select ("What do you need help with?").bold do |menu|
             menu.help "(Use ↑/↓ and press Enter to select)"

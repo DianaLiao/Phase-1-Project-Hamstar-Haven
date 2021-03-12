@@ -13,9 +13,9 @@ This CLI app contains a database where users can create a login to:
 ## Installation
 1. Fork and clone repo to local machine
 2. Install dependencies with '$ bundle install'
-3. Use Rake task 'rake db:seed' to create a clean install of pre-loaded activities
-4. Use Rake task 'rake run' to start the app
-Note: database is currently seeded with two users
+3. Use Rake task `rake db:seed` to create a clean install of pre-loaded activities. Note: database is currently seeded with two users.
+4. Use Rake task `rake run` to start the app
+
 
 ## How to use
 The inputs will vary from entering strings to selecting from a menu with arrow keys.

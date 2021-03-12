@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
 
         password = session.prompt.mask("Please enter your password:")
 
+        # Unsuccesful password confirm feature - bugs when password does not match before eventually matching
         # password_confirm = session.prompt.mask("Please confirm your password:")
 
         # until password == password_confirm
